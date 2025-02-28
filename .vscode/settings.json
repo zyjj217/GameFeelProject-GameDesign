@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "GameFeel-GameDesignWk6.sln"
+    "dotnet.defaultSolution": "GameFeelProject-GameDesign.sln"
 }
