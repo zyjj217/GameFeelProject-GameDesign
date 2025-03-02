@@ -6,7 +6,10 @@ public class PlayerScript : MonoBehaviour
     Animator animator;
     Rigidbody2D body;
     SpriteRenderer spriteRenderer;
+    public GameObject attackArea;
     public ParticleSystem smoke;
+    public bool smokeOn = true;
+    public HealthBarScript healthBar;
 
     //player health
     int health = 5;
@@ -16,6 +19,7 @@ public class PlayerScript : MonoBehaviour
     Vector2 jumpForce = new Vector2(0, 5);
     int speed = 5;
 
+    //player attack variables
     float attackTimer = 0f;
     float attackTime = 1f;
 
@@ -25,6 +29,7 @@ public class PlayerScript : MonoBehaviour
     bool hit = false;
     bool dead = false;
     bool moving = false;
+    bool facingRight = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,7 +37,7 @@ public class PlayerScript : MonoBehaviour
         animator = GetComponent<Animator>();
         body = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-
+        attackArea.SetActive(false);
     }
 
     // Update is called once per frame
@@ -50,21 +55,15 @@ public class PlayerScript : MonoBehaviour
         }
 
         //flip player sprite in correct direction
-        if (xDirection > 0)
+        if (xDirection != 0)
         {
             moving = true;
-            spriteRenderer.flipX = false;
-            smoke.Play();
-
-        }
-        else if (xDirection < 0)
-        {
-            moving = true;
-            spriteRenderer.flipX = true;
-            smoke.Play();
-
-        }
-        else
+            flip(xDirection);
+            if (smokeOn)
+            {
+                smoke.Play();
+            }
+        }else
         {
             moving = false;
         }
@@ -78,13 +77,17 @@ public class PlayerScript : MonoBehaviour
             jumping = true;
             moving = false;
             body.AddForce(jumpForce, ForceMode2D.Impulse);
-            smoke.Play();
+            if (smokeOn)
+            {
+                smoke.Play();
+            }
         }
 
         //check for player attacking
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !attacking)
         {
             attacking = true;
+            attackArea.SetActive(true);
         }
         if (attacking)
         {
@@ -112,7 +115,7 @@ public class PlayerScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Floor"))
         {
             jumping = false;
-        }else if (collision.gameObject.CompareTag("Enemy")){        //if player collides with an enemy
+        }else if (collision.gameObject.CompareTag("Enemy")){//if player collides with an enemy
             if(timeSinceHit >= 2)
             {
                 takeDamage();
@@ -134,7 +137,9 @@ public class PlayerScript : MonoBehaviour
         {
             dead = true;
         }
-        
+        healthBar.setHealth(health);
+
+
     }
 
     void attack()
@@ -144,6 +149,20 @@ public class PlayerScript : MonoBehaviour
         {
             attacking = false;
             attackTimer = 0;
+            attackArea.SetActive(false);
+        }
+    }
+
+    public void toggleSmoke()
+    {
+        smokeOn = !smokeOn;
+    }
+    void flip(float xDirection)
+    {
+        if(xDirection <0 && facingRight || xDirection > 0 && !facingRight)
+        {
+            facingRight = !facingRight;
+            transform.Rotate(new Vector3(0, 180, 0));
         }
     }
 }
