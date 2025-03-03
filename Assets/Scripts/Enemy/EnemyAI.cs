@@ -41,54 +41,27 @@ public class EnemyAI : MonoBehaviour
         {
             ChasePlayer();
         }
-        else
-        {
-            Patrol();
-        }
     }
 
-    // Patrol between waypoints
-    void Patrol()
-    {
-        // Move towards the current waypoint
-        if (Vector2.Distance(transform.position, waypoints[currentWaypointIndex].position) > 0.2f)
-        {
-            MoveTowards(waypoints[currentWaypointIndex].position);
-        }
-        else
-        {
-            // Wait at the waypoint before moving to the next one
-            anim.SetBool("isMoving", false);
-            Invoke("ChangeWaypoint", waypointWaitTime);
-        }
-    }
 
     // Move towards a specific position
     void MoveTowards(Vector2 targetPosition)
     {
         anim.SetBool("isMoving", true); // Set the moving animation
 
-    // Calculate the direction to the target, but keep the Y position unchanged
-    Vector2 direction = (targetPosition - (Vector2)transform.position).normalized;
-    
-    // Lock the Y position to the current position
-    Vector3 targetWithLockedY = new Vector3(targetPosition.x, transform.position.y, transform.position.z);
+        // Calculate the direction to the target, but keep the Y position unchanged
+        Vector2 direction = (targetPosition - (Vector2)transform.position).normalized;
+        
+        // Lock the Y position to the current position
+        Vector3 targetWithLockedY = new Vector3(targetPosition.x, transform.position.y, transform.position.z);
 
-    // Flip the sprite to face the movement direction
-    FlipSprite(direction);
+        // Flip the sprite to face the movement direction
+        FlipSprite(direction);
 
-    // Move the enemy, keeping the Y position the same
-    transform.Translate(direction * speed * Time.deltaTime);
-
-    // Optionally, update the position directly (if you need to directly set it without Translate)
-    transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        // Move the enemy, keeping the Y position the same
+        transform.Translate(direction * speed * Time.deltaTime);
     }
 
-    // Change to the next waypoint
-    void ChangeWaypoint()
-    {
-        currentWaypointIndex = Random.Range(0, waypoints.Length);
-    }
 
     // Chase the player when within range
     void ChasePlayer()
