@@ -12,7 +12,7 @@ public class PlayerScript : MonoBehaviour
     public HealthBarScript healthBar;
 
     //player health
-    int health = 5;
+    public int health = 5;
     float timeSinceHit = 0f;
 
     //player physics variables
@@ -124,7 +124,7 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    void takeDamage()
+    public void takeDamage()
     {
         if (health > 0)
         {

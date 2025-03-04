@@ -4,10 +4,9 @@ public class EnemyAI : MonoBehaviour
 {
     public float speed = 2f;              // Speed of movement
     public float chaseRange = 5f;         // Distance within which the enemy will start chasing the player
-    public float attackRange = 1.5f;      // Distance to trigger the attack
-    public float attackCooldown = 2f;     // Time between attacks
-    public Transform[] waypoints;         // List of points the enemy will randomly move towards
-    public float waypointWaitTime = 2f;   // Time to wait at each waypoint before moving to the next one
+    public float attackRange = 0.5f;      // Distance to trigger the attack
+    public float attackCooldown = 2f;     // Time between attacks    
+    private GameObject playerGameObject;
 
     private Transform player;             // Reference to the player
     private Animator anim;
@@ -18,9 +17,9 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
+        playerGameObject = GameObject.FindGameObjectWithTag("Player");
         player = GameObject.FindWithTag("Player").transform;  // Find the player by its tag
         anim = GetComponent<Animator>();  // Get the Animator component
-        currentWaypointIndex = Random.Range(0, waypoints.Length); // Start at a random waypoint
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -67,24 +66,33 @@ public class EnemyAI : MonoBehaviour
     void ChasePlayer()
     {
         anim.SetBool("isMoving", true);
-        MoveTowards(player.position);
 
         if (Vector2.Distance(transform.position, player.position) <= attackRange)
         {
             // Attack if within range of the player
-            AttackPlayer();
+            AttackPlayer(playerGameObject);
+        }
+        else
+        {
+            MoveTowards(player.position);
         }
     }
 
     // Attack the player
-    void AttackPlayer()
+    void AttackPlayer(GameObject target)
     {
         if (Time.time >= nextAttackTime)
         {
             anim.SetTrigger("isAttacking");
             nextAttackTime = Time.time + attackCooldown;
             // Here you can add the logic for damaging the player
-            Debug.Log("Enemy attacked the player!");
+            // Debug.Log("Enemy attacked the player!");
+            PlayerScript playerScript = target.GetComponent<PlayerScript>();
+            if (playerScript != null)
+            {
+                playerScript.takeDamage();
+                Debug.Log("Player took damage!");
+            }
         }
     }
 
