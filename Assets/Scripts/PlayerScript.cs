@@ -9,6 +9,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject attackArea;
     public ParticleSystem smoke;
     public bool smokeOn = true;
+    public bool screenShakeOn = true;
     public HealthBarScript healthBar;
 
     //player health
@@ -21,7 +22,7 @@ public class PlayerScript : MonoBehaviour
 
     //player attack variables
     float attackTimer = 0f;
-    float attackTime = 1f;
+    float attackTime = 0.5f;
 
     //player animation flags
     bool attacking = false;
@@ -48,6 +49,15 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         float xDirection = 0;
+        if (health == 0) // if player is dead update animations flags and return
+        {
+            moving = false;
+            attacking = false;
+            hit = false;
+            dead = true;
+            updateAnimationFlags();
+            return;
+        }
         if (timeSinceHit >= 0.5)
         {
             hit = false;
@@ -88,10 +98,11 @@ public class PlayerScript : MonoBehaviour
         }
 
         //check for player attacking
-        if (Input.GetKeyDown(KeyCode.Space) && !attacking)
+        if (Input.GetKeyDown(KeyCode.Space) && !attacking && !hit)
         {
             attacking = true;
             attackArea.SetActive(true);
+            Debug.Log("Triggered Attack");
         }
         if (attacking)
         {
@@ -119,11 +130,6 @@ public class PlayerScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Floor"))
         {
             jumping = false;
-        }else if (collision.gameObject.CompareTag("Enemy")){//if player collides with an enemy
-            if(timeSinceHit >= 2)
-            {
-                takeDamage();
-            }
         }
 
     }
@@ -133,16 +139,20 @@ public class PlayerScript : MonoBehaviour
         if (health > 0)
         {
             hit = true;
-            if (screenShake != null)
+            if (screenShake != null && screenShakeOn)
             {
                 screenShake.TriggerShake(0.2f, 0.3f); 
             }
             health--;
             moving = false;
+            attacking = false;
             timeSinceHit = 0;
         }
         else
         {
+            moving = false;
+            attacking = false;
+            hit = false;
             dead = true;
         }
         healthBar.setHealth(health);
@@ -164,6 +174,10 @@ public class PlayerScript : MonoBehaviour
     public void toggleSmoke()
     {
         smokeOn = !smokeOn;
+    }
+    public void toggleScreenShake()
+    {
+        screenShakeOn = !screenShakeOn;
     }
     void flip(float xDirection)
     {
