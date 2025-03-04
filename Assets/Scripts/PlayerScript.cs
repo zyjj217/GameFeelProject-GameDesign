@@ -44,7 +44,7 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         float xDirection = 0;
-        if (timeSinceHit >= 2)
+        if (timeSinceHit >= 0.5)
         {
             hit = false;
         }
