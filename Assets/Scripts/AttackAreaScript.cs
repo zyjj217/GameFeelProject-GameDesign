@@ -7,8 +7,13 @@ public class AttackAreaScript : MonoBehaviour
         //if enemy collides with attack area
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("Enemy Hit!");
+            //Debug.Log("Enemy Hit!");
             //MAKE ENEMY TAKE DAMAGE
+            EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
+            if (enemy != null)
+            {
+                enemy.takeDamage();
+            }
         }
     }
 }

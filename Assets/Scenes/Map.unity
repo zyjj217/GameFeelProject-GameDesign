@@ -1629,7 +1629,6 @@ GameObject:
   - component: {fileID: 959969707}
   - component: {fileID: 959969706}
   - component: {fileID: 959969712}
-  - component: {fileID: 959969711}
   m_Layer: 0
   m_Name: Goblin
   m_TagString: Enemy
@@ -1802,18 +1801,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &959969711
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 959969705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dedb7dd4c465ca74fa5fbaf4c785938a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &959969712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1826,6 +1813,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1706ca8ed9eec3d4e83ccaa07aee1bb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 3
   speed: 2
   chaseRange: 5
   attackRange: 0.5
@@ -1918,6 +1906,7 @@ GameObject:
   - component: {fileID: 1575108813}
   - component: {fileID: 1575108816}
   - component: {fileID: 1575108817}
+  - component: {fileID: 1575108818}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2058,6 +2047,20 @@ MonoBehaviour:
   player: {fileID: 159009789}
   smoothSpeed: 0.125
   offset: {x: 0, y: 0, z: -10}
+--- !u!114 &1575108818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575108812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf174ccc5af3f444980726f4295a1ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeDuration: 0.2
+  shakeMagnitude: 0.3
 --- !u!1 &1799220984
 GameObject:
   m_ObjectHideFlags: 0

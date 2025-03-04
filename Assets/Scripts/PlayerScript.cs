@@ -31,6 +31,9 @@ public class PlayerScript : MonoBehaviour
     bool moving = false;
     bool facingRight = true;
 
+    //player screen shake effect
+    private ScreenShake screenShake;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -38,6 +41,7 @@ public class PlayerScript : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         attackArea.SetActive(false);
+        screenShake = Camera.main.GetComponent<ScreenShake>();
     }
 
     // Update is called once per frame
@@ -129,6 +133,10 @@ public class PlayerScript : MonoBehaviour
         if (health > 0)
         {
             hit = true;
+            if (screenShake != null)
+            {
+                screenShake.TriggerShake(0.2f, 0.3f); 
+            }
             health--;
             moving = false;
             timeSinceHit = 0;
