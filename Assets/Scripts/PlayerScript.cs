@@ -10,7 +10,9 @@ public class PlayerScript : MonoBehaviour
     public ParticleSystem smoke;
     public bool smokeOn = true;
     public bool screenShakeOn = true;
+    public bool itemEffectsOn = true;
     public HealthBarScript healthBar;
+    public GameObject heartPopupPrefab;
 
     //player health
     public int health = 5;
@@ -179,6 +181,10 @@ public class PlayerScript : MonoBehaviour
     {
         screenShakeOn = !screenShakeOn;
     }
+    public void toggleItemEffects()
+    {
+        itemEffectsOn = !itemEffectsOn;
+    }
     void flip(float xDirection)
     {
         if(xDirection <0 && facingRight || xDirection > 0 && !facingRight)
@@ -186,5 +192,31 @@ public class PlayerScript : MonoBehaviour
             facingRight = !facingRight;
             transform.Rotate(new Vector3(0, 180, 0));
         }
+    }
+public void OnHealthPickup()
+    {
+        if (itemEffectsOn)
+        {
+            // Instantiate the heart popup slightly above the player
+            if (heartPopupPrefab != null)
+            {
+                Vector3 spawnPos = transform.position + new Vector3(0, 1f, 0);
+                Instantiate(heartPopupPrefab, spawnPos, Quaternion.identity);
+            }
+            // Trigger a glow effect on the health bar
+            if (healthBar != null)
+            {
+                healthBar.GlowEffect();
+            }
+        }
+    }
+
+    // Increase player's health and update the health bar
+    public void IncreaseHealth(int amount)
+    {
+        health += amount;
+        if (health > 5)
+            health = 5;
+        healthBar.setHealth(health);
     }
 }
