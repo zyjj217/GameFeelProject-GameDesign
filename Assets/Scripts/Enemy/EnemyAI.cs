@@ -26,6 +26,12 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
+        if(health == 0)
+        {
+            Debug.Log("enemy died.");
+            Die();
+            return;
+        }
         if (Vector2.Distance(transform.position, player.position) <= chaseRange)
         {
             // Start chasing the player if within range
