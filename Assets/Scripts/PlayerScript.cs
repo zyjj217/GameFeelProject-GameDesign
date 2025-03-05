@@ -113,7 +113,7 @@ public class PlayerScript : MonoBehaviour
         //         smoke.Play();
         //     }
         // }
-        if (Input.GetKeyDown(KeyCode.W) && !dead && !hit)
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) )&& !dead && !hit)
         {
             if (!jumping) 
             {
