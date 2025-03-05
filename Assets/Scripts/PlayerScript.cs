@@ -20,7 +20,7 @@ public class PlayerScript : MonoBehaviour
     private bool canDoubleJump = false; // figured since we got the sprites why not try it
 
     //player health
-    public int health = 5;
+    public int health = 10;
     float timeSinceHit = 0f;
     float deadTime = 0f;
 
