@@ -5,7 +5,7 @@ public class EnemyAI : MonoBehaviour
     public float health = 3f;
     public float speed = 2f;              // Speed of movement
     public float chaseRange = 5f;         // Distance within which the enemy will start chasing the player
-    public float attackRange = 0.5f;      // Distance to trigger the attack
+    public float attackRange = 0.1f;      // Distance to trigger the attack
     public float attackCooldown = 2f;     // Time between attacks    
     private GameObject playerGameObject;
 
