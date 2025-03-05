@@ -274,8 +274,8 @@ public void OnHealthPickup()
     public void IncreaseHealth(int amount)
     {
         health += amount;
-        if (health > 5)
-            health = 5;
+        if (health > 10)
+            health = 10;
         healthBar.setHealth(health);
     }
 }
