@@ -22,6 +22,17 @@ public class BulletTime : MonoBehaviour
         }
     }
 
+    public void toggleBulletTime()
+    {
+        if (isBulletTimeActive)
+        {
+            DeactivateBulletTime();
+        }
+        else
+        {
+            ActivateBulletTime();
+        } 
+    }
     void ActivateBulletTime()
     {
         Time.timeScale = slowFactor;
