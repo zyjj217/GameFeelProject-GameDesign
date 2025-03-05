@@ -4,7 +4,7 @@ using UnityEngine;
 public class BulletTime : MonoBehaviour
 {
     public Camera cam;            
-    public float slowFactor = 0.2f; // Time scale during bullet time
+    public float slowFactor = 0.3f; // Time scale during bullet time
     public float zoomSize = 3.5f;   // Camera zoom level in bullet time
     public float normalZoom = 5f;   // Normal camera size
     public float zoomDuration = 0.5f; // Zoom transition duration

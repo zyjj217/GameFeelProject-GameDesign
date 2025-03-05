@@ -1,5 +1,7 @@
 using System.Threading;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -99,24 +101,26 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
+        // Note: attempt to fix player animation, rewrite attacking logic
         //check for player attacking
         if (Input.GetKeyDown(KeyCode.Space) && !attacking && !hit)
         {
-            moving = false;
-            attacking = true;
-            attackArea.SetActive(true);
-            Debug.Log("Triggered Attack");
-        }
-        if (attacking)
-        {
-            moving = false;
-            jumping = false;
-            attack();
-        }
-        if (jumping)
-        {
-            moving = false;
-            attacking = false;
+        //     moving = false;
+        //     attacking = true;
+        //     attackArea.SetActive(true);
+        //     Debug.Log("Triggered Attack");
+        // }
+        // if (attacking)
+        // {
+        //     moving = false;
+        //     jumping = false;
+        //     attack();
+        // }
+        // if (jumping)
+        // {
+        //     moving = false;
+        //     attacking = false;
+            StartCoroutine(PerformAttack());
         }
         //increase time since hit
         timeSinceHit += Time.deltaTime;
@@ -125,12 +129,25 @@ public class PlayerScript : MonoBehaviour
         updateAnimationFlags();
     }
 
+    IEnumerator PerformAttack()
+    {
+        attacking = true;
+        attackArea.SetActive(true);
+        animator.SetTrigger("Attacking"); // Use a trigger instead of a bool
+
+        yield return new WaitForSeconds(attackTime); // Wait for the full attack animation
+
+        attacking = false;
+        attackArea.SetActive(false);
+    }
+
+
     void updateAnimationFlags()
     {
         animator.SetBool("Moving", moving);
         animator.SetBool("Jumping", jumping);
         animator.SetBool("Hit", hit);
-        animator.SetBool("Attacking", attacking);
+        //animator.SetBool("Attacking", attacking);
         animator.SetBool("Dead", dead);
 
     }
@@ -140,6 +157,7 @@ public class PlayerScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Floor"))
         {
             jumping = false;
+            updateAnimationFlags();
         }
 
     }
