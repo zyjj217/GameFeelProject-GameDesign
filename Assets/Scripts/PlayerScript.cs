@@ -102,13 +102,21 @@ public class PlayerScript : MonoBehaviour
         //check for player attacking
         if (Input.GetKeyDown(KeyCode.Space) && !attacking && !hit)
         {
+            moving = false;
             attacking = true;
             attackArea.SetActive(true);
             Debug.Log("Triggered Attack");
         }
         if (attacking)
         {
+            moving = false;
+            jumping = false;
             attack();
+        }
+        if (jumping)
+        {
+            moving = false;
+            attacking = false;
         }
         //increase time since hit
         timeSinceHit += Time.deltaTime;
