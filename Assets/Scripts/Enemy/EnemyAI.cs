@@ -16,12 +16,16 @@ public class EnemyAI : MonoBehaviour
     private int currentWaypointIndex;     // Current waypoint the enemy is moving towards
     private bool isChasing = false;       // Whether the enemy is chasing the player
 
+    private ScreenShake screenShake;
+    public bool screenShakeOn = true;
+
     private void Start()
     {
         playerGameObject = GameObject.FindGameObjectWithTag("Player");
         player = GameObject.FindWithTag("Player").transform;  // Find the player by its tag
         anim = GetComponent<Animator>();  // Get the Animator component
         spriteRenderer = GetComponent<SpriteRenderer>();
+        screenShake = Camera.main.GetComponent<ScreenShake>();
     }
 
     private void Update()
@@ -125,6 +129,10 @@ public class EnemyAI : MonoBehaviour
     {
         
         Debug.Log("Enemy took damage!1");
+        if (screenShakeOn && screenShake != null)
+        {
+            screenShake.TriggerShake(0.1f, 0.2f); // Less intense shake for attacks
+        }
         if (health > 0)
         {
             health--;
