@@ -2,6 +2,7 @@ using System.Threading;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -15,11 +16,13 @@ public class PlayerScript : MonoBehaviour
     public bool itemEffectsOn = true;
     public HealthBarScript healthBar;
     public GameObject heartPopupPrefab;
+    public bool gameOver = false;
     private bool canDoubleJump = false; // figured since we got the sprites why not try it
 
     //player health
     public int health = 5;
     float timeSinceHit = 0f;
+    float deadTime = 0f;
 
     //player physics variables
     Vector2 jumpForce = new Vector2(0, 5);
@@ -53,13 +56,22 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameOver)
+        {
+            body.linearVelocity = new Vector3(0, 0, 0);
+            return;
+        }
         float xDirection = 0;
-        if (health == 0) // if player is dead update animations flags and return
+        if (health == 0 && deadTime >= 0.5f)
+        {
+            SceneManager.LoadScene("Map");
+        }else if (health == 0) // if player is dead update animations flags and return
         {
             moving = false;
             attacking = false;
             hit = false;
             dead = true;
+            deadTime += Time.deltaTime;
             updateAnimationFlags();
             return;
         }
