@@ -8719,7 +8719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 159009789}
-  smoothSpeed: 3
+  smoothSpeed: 0.87
   offset: {x: 0, y: 0, z: -10}
 --- !u!114 &1575108818
 MonoBehaviour:
