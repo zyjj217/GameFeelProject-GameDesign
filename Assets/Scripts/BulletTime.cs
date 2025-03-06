@@ -11,6 +11,11 @@ public class BulletTime : MonoBehaviour
 
     private bool isBulletTimeActive = false;
 
+    // for fun and more effects
+    public GameObject afterimagePrefab;  
+    public float afterimageSpawnRate = 0.1f; // Time interval for spawning afterimages
+    private Coroutine afterimageCoroutine;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.J))
@@ -39,6 +44,9 @@ public class BulletTime : MonoBehaviour
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
         StartCoroutine(ZoomEffect(zoomSize));
         isBulletTimeActive = true;
+
+        // Start spawning afterimages
+        afterimageCoroutine = StartCoroutine(SpawnAfterimages());
     }
 
     void DeactivateBulletTime()
@@ -47,6 +55,12 @@ public class BulletTime : MonoBehaviour
         Time.fixedDeltaTime = 0.02f;
         StartCoroutine(ZoomEffect(normalZoom));
         isBulletTimeActive = false;
+
+        // Stop afterimage effect
+        if (afterimageCoroutine != null)
+        {
+            StopCoroutine(afterimageCoroutine);
+        }
     }
 
     // Camera zoom when activated
@@ -63,5 +77,24 @@ public class BulletTime : MonoBehaviour
         }
 
         cam.orthographicSize = targetSize;
+    }
+
+    IEnumerator SpawnAfterimages()
+    {
+        while (isBulletTimeActive)
+        {
+            GameObject afterimage = Instantiate(afterimagePrefab, transform.position, transform.rotation);
+            SpriteRenderer afterimageRenderer = afterimage.GetComponent<SpriteRenderer>();
+            SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
+
+            if (afterimageRenderer && playerRenderer)
+            {
+                afterimageRenderer.sprite = playerRenderer.sprite;
+                afterimageRenderer.color = new Color(1, 1, 1, 0.5f); 
+            }
+
+            Destroy(afterimage, 0.5f); // Destroy afterimage after a short time
+            yield return new WaitForSeconds(afterimageSpawnRate);
+        }
     }
 }

@@ -1,2 +1,13 @@
 fileFormatVersion: 2
 guid: df05970f50c524442b4ccff6be7f5b69
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - cam: {instanceID: 0}
+  - afterimagePrefab: {fileID: 8073612954402655436, guid: b02d2ff64842e6b4782aa9b57c89afc9, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
