@@ -15,6 +15,7 @@ public class PlayerScript : MonoBehaviour
     public bool itemEffectsOn = true;
     public HealthBarScript healthBar;
     public GameObject heartPopupPrefab;
+    private bool canDoubleJump = false; // figured since we got the sprites why not try it
 
     //player health
     public int health = 5;
@@ -90,14 +91,34 @@ public class PlayerScript : MonoBehaviour
         body.linearVelocity = new Vector3(xDirection * speed, body.linearVelocity.y);
 
         //if the player presses jump and they aren't already jumping let them jump
-        if (Input.GetAxis("Vertical") > 0 && !jumping && !dead && !hit)
+        // if (Input.GetAxis("Vertical") > 0 && !jumping && !dead && !hit)
+        // {
+        //     jumping = true;
+        //     moving = false;
+        //     body.AddForce(jumpForce, ForceMode2D.Impulse);
+        //     if (smokeOn)
+        //     {
+        //         smoke.Play();
+        //     }
+        // }
+        if (Input.GetKeyDown(KeyCode.W) && !dead && !hit)
         {
-            jumping = true;
-            moving = false;
-            body.AddForce(jumpForce, ForceMode2D.Impulse);
-            if (smokeOn)
+            if (!jumping) 
             {
-                smoke.Play();
+                // First jump
+                jumping = true;
+                canDoubleJump = true;
+                body.linearVelocity = new Vector2(body.linearVelocity.x, 0);
+                body.AddForce(jumpForce, ForceMode2D.Impulse);
+            }
+            else if (canDoubleJump)
+            {
+                // Second jump (double jump)
+                canDoubleJump = false; // Disable further jumping
+                body.linearVelocity = new Vector2(body.linearVelocity.x, 0); // Reset velocity then up
+                body.AddForce(jumpForce, ForceMode2D.Impulse);
+
+                animator.SetTrigger("DoubleJump"); 
             }
         }
 
