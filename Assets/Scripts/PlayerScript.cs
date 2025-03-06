@@ -202,6 +202,7 @@ public class PlayerScript : MonoBehaviour
             hit = true;
             if (screenShake != null && screenShakeOn)
             {
+                Debug.Log("SCREEN SHAKE");
                 screenShake.TriggerShake(0.2f, 0.3f); 
             }
             health--;
